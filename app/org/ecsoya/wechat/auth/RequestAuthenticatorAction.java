@@ -1,13 +1,12 @@
 package org.ecsoya.wechat.auth;
 
+import org.ecsoya.wechat.utils.SHA1Utils;
+
 import play.libs.F.Promise;
 import play.mvc.Action;
 import play.mvc.Http.Context;
 import play.mvc.Http.Request;
 import play.mvc.SimpleResult;
-
-import com.qq.weixin.mp.aes.AesException;
-import com.qq.weixin.mp.aes.SHA1;
 
 public class RequestAuthenticatorAction extends Action.Simple {
 
@@ -18,15 +17,14 @@ public class RequestAuthenticatorAction extends Action.Simple {
 		String signature = request.getQueryString("signature");
 		String timestamp = request.getQueryString("timestamp");
 		String nonce = request.getQueryString("nonce");
-		String encrypt = request.getQueryString("encrypt");
 
 		if (timestamp != null && nonce != null) {
 			try {
-				String sign = SHA1.getSHA1(TOKEN, timestamp, nonce, encrypt);
+				String sign = SHA1Utils.getSHA1Sign(TOKEN, timestamp, nonce);
 				if (sign != null && sign.equals(signature)) {
 					return Promise.pure((SimpleResult) ok());
 				}
-			} catch (AesException e) {
+			} catch (Exception e) {
 				return Promise.pure((SimpleResult) badRequest("Bad request: "
 						+ e.getMessage()));
 			}
