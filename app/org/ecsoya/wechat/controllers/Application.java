@@ -25,12 +25,14 @@ public class Application extends Controller {
 		String nonce = JsonUtils.getStringValue(req, "nonce");
 		String echostr = JsonUtils.getStringValue(req, "echostr");
 
-		String sign = SHA1.checkSignature(TOKEN, timestamp, nonce);
-		if (sign != null && sign.equals(signature)) {
-			return ok(echostr);
+		if (timestamp != null && nonce != null) {
+			String sign = SHA1.checkSignature(TOKEN, timestamp, nonce);
+			if (sign != null && sign.equals(signature)) {
+				return ok(echostr);
+			}
 		}
 
-		return ok(index.render("Your new application is ready."));
+		return ok(index.render("Local Test - (No signature)"));
 	}
 
 }
