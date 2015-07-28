@@ -24,14 +24,14 @@ public class RequestAuthenticatorAction extends Action.Simple {
 			try {
 				String sign = SHA1.getSHA1(TOKEN, timestamp, nonce, encrypt);
 				if (sign != null && sign.equals(signature)) {
-					return Promise.pure(ok());
+					return Promise.pure((SimpleResult) ok());
 				}
 			} catch (AesException e) {
 				return Promise.pure((SimpleResult) badRequest("Bad request: "
 						+ e.getMessage()));
 			}
 		}
-		return Promise.pure(badRequest("no tokens found"));
+		return Promise.pure((SimpleResult) badRequest("no tokens found"));
 	}
 
 }
