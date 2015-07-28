@@ -1,8 +1,9 @@
 package org.ecsoya.wechat.controllers;
 
+import java.util.Map;
+
 import org.ecsoya.wechat.SHA1;
 import org.ecsoya.wechat.utils.JsonUtils;
-import org.ecsoya.wechat.views.html.index;
 
 import play.mvc.Controller;
 import play.mvc.Http.Request;
@@ -18,12 +19,11 @@ public class Application extends Controller {
 
 	public static Result index() {
 		Request request = request();
-		JsonNode req = request.body().asJson();
 
-		String signature = JsonUtils.getStringValue(req, "signature");
-		String timestamp = JsonUtils.getStringValue(req, "timestamp");
-		String nonce = JsonUtils.getStringValue(req, "nonce");
-		String echostr = JsonUtils.getStringValue(req, "echostr");
+		String signature = request.getQueryString("signature");
+		String timestamp = request.getQueryString("timestamp");
+		String nonce = request.getQueryString( "nonce");
+		String echostr = request.getQueryString("echostr");
 
 		if (timestamp != null && nonce != null) {
 			String sign = SHA1.checkSignature(TOKEN, timestamp, nonce);
@@ -32,7 +32,7 @@ public class Application extends Controller {
 			}
 		}
 
-		return ok(index.render("Local Test - (No signature)"));
+		return ok("Invalid Token");
 	}
 
 }
