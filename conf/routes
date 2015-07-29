@@ -7,7 +7,6 @@ GET     /                           org.ecsoya.wechat.controllers.Application.in
 
 # Messages
 POST    /msg/send					@org.ecsoya.wechat.controllers.MessageController.send()
-GET     /msg/send					org.ecsoya.wechat.controllers.Application.index()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

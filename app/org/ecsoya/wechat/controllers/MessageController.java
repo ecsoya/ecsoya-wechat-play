@@ -1,5 +1,6 @@
 package org.ecsoya.wechat.controllers;
 
+import org.ecsoya.wechat.auth.AuthenticateRequest;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -9,6 +10,7 @@ import play.mvc.Result;
 
 public class MessageController extends Controller {
 
+	@AuthenticateRequest
 	public Result send() {
 		Document body = request().body().asXml();
 		NodeList contents = body.getElementsByTagName("Content");
