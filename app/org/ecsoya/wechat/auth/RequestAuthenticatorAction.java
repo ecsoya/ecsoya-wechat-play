@@ -19,6 +19,9 @@ public class RequestAuthenticatorAction extends Action.Simple {
 		String nonce = request.getQueryString("nonce");
 		String echostr = request.getQueryString("echostr");
 		if (signature == null || timestamp == null || nonce == null) {
+			if (echostr == null) {
+				return Promise.pure((SimpleResult) ok("Empty"));
+			}
 			return Promise.pure((SimpleResult) ok(echostr));
 		}
 		String sha1 = SHA1.getSHA1(EcsoyaWeChat.TOKEN, timestamp, nonce,
