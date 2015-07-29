@@ -11,6 +11,12 @@ import java.util.Arrays;
  */
 public class SHA1Utils {
 
+	public static boolean check(String signature, String token,
+			String timestamp, String nonce) throws Exception {
+		String sha1Sign = getSHA1Sign(token, timestamp, nonce);
+		return signature != null && signature.equals(sha1Sign);
+	}
+
 	public static String getSHA1Sign(String token, String timestamp,
 			String nonce) throws Exception {
 
